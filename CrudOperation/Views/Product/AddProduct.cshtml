@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Student Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-md-12 pt-3" id="dashboard_table">
+        <div class="box box-primary">
+            <form id="productAddForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Student info</h3>
+                </div>
+                <div class="box-body" id="dashboard_form_data">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row g-3">
+
+                                <div class="col-md-4">
+                                    <label for="item">Item <label style="color: red; font-weight: bold;">*</label></label>
+                                    <div>
+                                        <select name="item" id="item" class="form-control">
+                                            <option>Select Item</option>
+                                            <option value="Cement">Cement</option>
+                                            <option value="Bricks">Bricks</option>
+                                            <option value="Slab">Slab</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="quantity">Quantity <label style="color: red; font-weight: bold;">*</label></label>
+                                    <input id="quantity" name="quantity" value="" placeholder="Quantity" type="number" class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="rate">Rate <label style="color: red; font-weight: bold;">*</label></label>
+                                    <input id="rate" name="rate" value="" placeholder="Rate" type="number" class="form-control" />
+                                </div>
+                                <div class="col-md-2" style="margin-top: auto;">
+                                    <button type="button" onclick="Add()" class="btn btn-primary"><i class="fa fa-save" style="font-size:13px;color:white"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </br>
+    <h2>Product Summery</h2>
+    </br>
+    <table id="productTable">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+    </table>
+    </br>
+    <div class="wisl-panel-footer text-center pb-3">
+        <button type="button" onclick="Update()" class="btn btn-primary"><i class="fa fa-save" style="font-size:13px;color:white"></i> Update</button>
+    </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+    function Add() {
+        var item = document.getElementById("item").value;
+        var quantity = document.getElementById("quantity").value;
+        var rate = document.getElementById("rate").value;
+
+        if (item === "Select Item" || quantity === "" || rate === "") {
+            alert("Please fill all fields.");
+            return;
+        }
+
+        var table = document.getElementById("productTable");
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = table.rows[i];
+            if (row.cells[0].innerText === item) {
+                alert("Duplicate item found in the table.");
+                return;
+            }
+        }
+
+        var amount = quantity * rate;
+
+
+        var table = document.getElementById("productTable");
+        var newRow = table.insertRow(-1); 
+
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+        var cell4 = newRow.insertCell(3);
+
+        cell1.innerHTML = item;
+        cell2.innerHTML = quantity;
+        cell3.innerHTML = rate;
+        cell4.innerHTML = amount;
+
+        document.getElementById("item").value = "Select Item";
+        document.getElementById("quantity").value = "";
+        document.getElementById("rate").value = "";
+    }
+
+    function Update() {
+        var table = document.getElementById("productTable");
+        var data = [];
+
+        for (var i = 1; i < table.rows.length; i++) {
+            var row = table.rows[i];
+            var rowData = {
+                product: row.cells[0].innerText,
+                quantity: parseInt(row.cells[1].innerText),
+                rate: parseInt(row.cells[2].innerText),
+                amount: parseInt(row.cells[3].innerText)
+            };
+            data.push(rowData);
+        }
+
+        var formData = new FormData();
+        for (var i = 0; i < data.length; i++) {
+            formData.append('products[' + i + '].Product', data[i].product);
+            formData.append('products[' + i + '].Quantity', data[i].quantity);
+            formData.append('products[' + i + '].Rate', data[i].rate);
+            formData.append('products[' + i + '].Amount', data[i].amount);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/SubmitProduct",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert(response);
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    }
+</script>
+

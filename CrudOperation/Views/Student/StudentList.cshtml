@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CrudOperation.Models.ViewModel.StudentViewModel>
+@{
+    ViewData["Title"] = "Student List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h2>Student Info</h2>
+    <div>
+        <button type="button" onclick="RdlcReport()" class="btn btn-primary"><i class="fa fa-save" style="font-size:13px;color:white"></i> RDLC Report</button>
+    </div>
+    </br>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>FatherName</th>
+            <th>DateOfBirth</th>
+            <th>Gender</th>
+            <th>District</th>
+        </tr>
+        @foreach (var data in Model)
+        {
+            <tr>
+                <td>@data.Name</td>
+                <td>@data.FatherName</td>
+                <td>@data.DateOfBirth</td>
+                <td>@data.Gender</td>
+                <td>@data.District</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
+
+<script type="text/javascript">
+    function RdlcReport() {
+        window.location = '/Student/StudentListRdlc';
+    }
+</script>
+

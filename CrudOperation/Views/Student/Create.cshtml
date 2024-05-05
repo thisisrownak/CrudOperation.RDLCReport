@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "Student Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 pt-3" id="dashboard_table">
+    <div class="box box-primary">
+        <form id="studentRegForm">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Student info</h3>
+            </div>
+            <div class="box-body" id="dashboard_form_data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row g-3">
+
+                            <div class="col-md-6" id="dropdown_body">
+                                <label for="name">Name <label style="color: red; font-weight: bold;">*</label></label>
+                                <input id="name" name="name" value="" placeholder="Name" type="text" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="fatherName">Father Name <label style="color: red; font-weight: bold;">*</label></label>
+                                <input id="fatherName" name="fatherName" value="" placeholder="father Name" type="text" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-3">
+                            <div class="col-md-6" id="dropdown_body">
+                                <label for="dateOfBirth">Date Of Birth <label style="color: red; font-weight: bold;">*</label></label>
+                                <input id="dateOfBirth" name="dateOfBirth" value="" placeholder="Date Of Birth" type="date" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="gender">Gender <label style="color: red; font-weight: bold;">*</label></label>
+                                <div style="margin-top: 10px">
+                                    <label style="width:80px;"><input type="radio" id="rdoMale" name="rdoGender" value="Male">&nbsp;Male</label>
+                                    <label style="width:110px;"><input type="radio" id="rdoFemale" name="rdoGender" value="Female">&nbsp;Female</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row g-3">
+                            <input id="id" name="id" value="" type="hidden" />
+
+                            <div class="col-md-6" id="dropdown_body">
+                                <label for="picture">Picture <label style="color: red; font-weight: bold;">*</label></label>
+                                <input id="picture" name="picture" value="" placeholder="Picture" type="file" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="district">District <label style="color: red; font-weight: bold;">*</label></label>
+                                <div>
+                                    <select name="district" id="district" class="form-control">
+                                        <option>Select District</option>
+                                        <option value="Dhaka">Dhaka</option>
+                                        <option value="Rangpur">Rangpur</option>
+                                        <option value="Mymensingh">Mymensingh</option>
+                                        <option value="Sylhet">Sylhet</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </br>
+    <div class="wisl-panel-footer text-center pb-3">
+        <button type="button" onclick="Save()" class="btn btn-primary"><i class="fa fa-save" style="font-size:13px;color:white"></i> Save</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function Save() {
+        $("#studentRegForm").validate({
+            rules: {
+                name: "required",
+                fatherName: "required",
+                dateOfBirth: "required",
+                rdoGender: "required",
+                district: "required"
+            },
+            messages: {
+                name: "Name Required!!",
+                fatherName: "Father Name Required!!",
+                dateOfBirth: "Date Of Birth Required!!",
+                rdoGender: "Gender Required!!",
+                district: "District Required!!",
+            },
+            errorElement: "div"
+        });
+        if ($("#studentRegForm").valid()) {
+            var rdoGender = $('input[name=rdoGender]:checked').val();
+
+            var formData = new FormData();
+
+            var file = document.getElementById('picture');
+            if (file.files.length > 0) {
+                for (var i = 0; i < file.files.length; i++) {
+                    formData.append("Picture", file.files[i]);
+                }
+            }
+
+            formData.append('Name', $('#name').val());
+            formData.append('FatherName', $('#fatherName').val());
+            formData.append('DateOfBirth', $('#dateOfBirth').val());
+            formData.append('Gender', rdoGender);
+            formData.append('District', $('#district').val());
+
+            $.ajax({
+                type: "POST",
+                url: "/Student/SubmitStudentInfo",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    debugger;
+                    alert(response);
+                    return false;
+                },
+                error: function (response) {
+                    alert(response);
+                    return false;
+                },
+            });
+        }
+    }
+
+</script>
