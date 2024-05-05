@@ -11,5 +11,6 @@ namespace CrudOperation.Repository.IRepository
     public interface IProductRepository
     {
         Task<CommonResponseModel> SubmitProduct(List<ProductViewModel> products);
+        Task<CommonResponseModel<ProductViewModel>> GetProductList();
     }
 }

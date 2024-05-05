@@ -1,5 +1,6 @@
 ﻿using CrudOperation.Models.ViewModel;
 using CrudOperation.Repository.IRepository;
+using CrudOperation.Repository.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CrudOperation.Controllers
@@ -29,6 +30,12 @@ namespace CrudOperation.Controllers
             {
                 return Json(result.Message);
             }
+        }
+
+        public async Task<IActionResult> ProductList()
+        {
+            var result = await _productRepository.GetProductList();
+            return await Task.Run(() => View(result.Resources));
         }
     }
 }

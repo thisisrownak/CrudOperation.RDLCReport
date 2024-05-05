@@ -54,5 +54,36 @@ namespace CrudOperation.Repository.Repository
             }
             return commonResponseModel;
         }
+
+        public async Task<CommonResponseModel<ProductViewModel>> GetProductList()
+        {
+            List<ProductViewModel> productList = [];
+            CommonResponseModel<ProductViewModel> commonResponseModel = new();
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string query = string.Format(DapperQuery.GetProductList);
+                    var result = await connection.QueryAsync<ProductViewModel>(query);
+                    if (result != null && result.Any())
+                    {
+                        productList = result.ToList();
+                    }
+                    else
+                    {
+                        productList = [];
+                    }
+                }
+                commonResponseModel.Success = true;
+                commonResponseModel.Resources = productList;
+            }
+            catch (Exception ex)
+            {
+                commonResponseModel.Success = false;
+            }
+            return commonResponseModel;
+        }
     }
 }

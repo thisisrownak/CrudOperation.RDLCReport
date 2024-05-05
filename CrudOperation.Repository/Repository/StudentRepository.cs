@@ -101,14 +101,12 @@ namespace CrudOperation.Repository.Repository
                 }
                 commonResponseModel.Success = true;
                 commonResponseModel.Resources = studentList;
-                return commonResponseModel;
             }
             catch (Exception ex)
             {
                 commonResponseModel.Success = false;
-                commonResponseModel.Resources = studentList;
-                return commonResponseModel;
             }
+            return commonResponseModel;
         }
     }
 }
