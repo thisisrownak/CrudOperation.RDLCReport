@@ -289,8 +289,6 @@ namespace CrudOperation.RDLCReport {
             
             private global::System.Data.DataColumn columnGender;
             
-            private global::System.Data.DataColumn columnPicture;
-            
             private global::System.Data.DataColumn columnDistrict;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -368,14 +366,6 @@ namespace CrudOperation.RDLCReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn PictureColumn {
-                get {
-                    return this.columnPicture;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn DistrictColumn {
                 get {
                     return this.columnDistrict;
@@ -419,7 +409,7 @@ namespace CrudOperation.RDLCReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public StudentRow AddStudentRow(string Id, string Name, string FatherName, string DateOfBirth, string Gender, string Picture, string District) {
+            public StudentRow AddStudentRow(string Id, string Name, string FatherName, string DateOfBirth, string Gender, string District) {
                 StudentRow rowStudentRow = ((StudentRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Id,
@@ -427,7 +417,6 @@ namespace CrudOperation.RDLCReport {
                         FatherName,
                         DateOfBirth,
                         Gender,
-                        Picture,
                         District};
                 rowStudentRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowStudentRow);
@@ -463,7 +452,6 @@ namespace CrudOperation.RDLCReport {
                 this.columnFatherName = base.Columns["FatherName"];
                 this.columnDateOfBirth = base.Columns["DateOfBirth"];
                 this.columnGender = base.Columns["Gender"];
-                this.columnPicture = base.Columns["Picture"];
                 this.columnDistrict = base.Columns["District"];
             }
             
@@ -480,8 +468,6 @@ namespace CrudOperation.RDLCReport {
                 base.Columns.Add(this.columnDateOfBirth);
                 this.columnGender = new global::System.Data.DataColumn("Gender", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGender);
-                this.columnPicture = new global::System.Data.DataColumn("Picture", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPicture);
                 this.columnDistrict = new global::System.Data.DataColumn("District", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDistrict);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -707,22 +693,6 @@ namespace CrudOperation.RDLCReport {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Picture {
-                get {
-                    try {
-                        return ((string)(this[this.tableStudent.PictureColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Picture\' in table \'Student\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableStudent.PictureColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string District {
                 get {
                     try {
@@ -783,18 +753,6 @@ namespace CrudOperation.RDLCReport {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetGenderNull() {
                 this[this.tableStudent.GenderColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsPictureNull() {
-                return this.IsNull(this.tableStudent.PictureColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetPictureNull() {
-                this[this.tableStudent.PictureColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

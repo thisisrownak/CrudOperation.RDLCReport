@@ -27,8 +27,18 @@
 </head>
 <body>
     <h2>Student Info</h2>
-    <div>
-        <button type="button" onclick="RdlcReport()" class="btn btn-primary"><i class="fa fa-save" style="font-size:13px;color:white"></i> RDLC Report</button>
+    <div class="row">
+        <div class="col-md-4">
+            <select name="fileType" id="fileType" class="form-control" onchange="toggleButton()">
+                <option value="">Select File Type</option>
+                <option value="pdf">Pdf</option>
+                <option value="word">Word</option>
+                <option value="excel">Excel</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="button" id="downloadButton" onclick="RdlcReport()" class="btn btn-primary" disabled><i class="fa fa-save" style="font-size:13px;color:white"></i>Download Report</button>
+        </div>
     </div>
     </br>
     <table>
@@ -54,8 +64,22 @@
 </html>
 
 <script type="text/javascript">
+
+    function toggleButton() {
+        var selectElement = document.getElementById("fileType").value;
+        var buttonElement = document.getElementById("downloadButton");
+
+        if (selectElement == "" || selectElement == null) {
+            buttonElement.disabled = true;
+        }
+        else{
+            buttonElement.disabled = false;
+        }
+    }
+
     function RdlcReport() {
-        window.location = '/Student/StudentListRdlc';
+        var fileType = $('#fileType').val();
+        window.location = '/Student/RdlcReport?fileType=' + fileType;
     }
 </script>
 

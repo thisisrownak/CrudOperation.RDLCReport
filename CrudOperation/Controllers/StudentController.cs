@@ -1,7 +1,6 @@
 ﻿using AspNetCore.Reporting;
 using CrudOperation.Models.ViewModel;
 using CrudOperation.Repository.IRepository;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
@@ -44,10 +43,31 @@ namespace CrudOperation.Controllers
             return await Task.Run(() => View(result.Resources));
         }
 
-        public async Task<IActionResult> StudentListRdlc()
+        public async Task<IActionResult> RdlcReport(string fileType)
         {
-            string mimetype = "application/pdf";
+            string mimetype = "";
+            string fileExtension = "";
             int extension = 1;
+            RenderType renderType = RenderType.Pdf;
+
+            if (fileType == "pdf")
+            {
+                mimetype = "application/pdf";
+                fileExtension = "StudentList.pdf";
+                renderType = RenderType.Pdf;
+            }
+            else if (fileType == "word")
+            {
+                mimetype = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                fileExtension = "StudentList.doc";
+                renderType = RenderType.Word;
+            }
+            else if (fileType == "excel")
+            {
+                mimetype = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                fileExtension = "StudentList.xls";
+                renderType = RenderType.Excel;
+            }
 
             // Combine the root path with the relative path to RDLC Report
             string reportPath = Path.Combine(_webHostEnvironment.ContentRootPath, "RDLCReport", "StudentList.rdlc");
@@ -59,8 +79,8 @@ namespace CrudOperation.Controllers
 
             LocalReport localReport = new(reportPath);
             localReport.AddDataSource("Student", dataTable);
-            var result = localReport.Execute(RenderType.Pdf, extension, parameters, mimetype);
-            return File(result.MainStream, mimetype, "StudentList.pdf");
+            var result = localReport.Execute(renderType, extension, parameters, mimetype);
+            return File(result.MainStream, mimetype, fileExtension);
         }
 
         public static DataTable ListToDataTable<T>(List<T> items)

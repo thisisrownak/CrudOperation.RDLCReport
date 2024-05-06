@@ -12,6 +12,7 @@ namespace CrudOperation.Repository.Repository
     {
         private readonly string? _connectionString;
         private readonly IConfiguration? _configuration;
+
         public ProductRepository(IConfiguration? configuration) 
         { 
             _configuration = configuration;
