@@ -1,4 +1,5 @@
 ﻿using AspNetCore.Reporting;
+using CrudOperation.Models.Common;
 using CrudOperation.Models.ViewModel;
 using CrudOperation.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +38,31 @@ namespace CrudOperation.Controllers
             }
         }
 
-        public async Task<IActionResult> StudentList()
+        public async Task<IActionResult> StudentList(string ddlPage = "10", int pg = 1)
         {
             var result = await _studentRepository.GetStudentList();
-            return await Task.Run(() => View(result.Resources));
+            int pageSize;
+            if (ddlPage == "All")
+            {
+                pageSize = result.Resources.Count;
+            }
+            else
+            {
+                pageSize = Convert.ToInt16(ddlPage);
+            }
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int recsCount = result.Resources.Count;
+            var pager = new Pager(recsCount, pg, "StudentList", "Student", pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = result.Resources.Skip(recSkip).Take(pager.PageSize).ToList();
+            ViewBag.StudentList = data;
+            ViewBag.Pager = pager;
+            ViewBag.ddlPageSize = pageSize;
+
+            return await Task.Run(() => View());
         }
 
         public async Task<IActionResult> RdlcReport(string fileType)

@@ -1,7 +1,19 @@
-﻿@model IEnumerable<CrudOperation.Models.ViewModel.StudentViewModel>
+﻿@using CrudOperation.Models.Common
 @{
     ViewData["Title"] = "Student List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int i = 1;
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    int pageSize = ViewBag.ddlPageSize;
+    pageNo = pageNo == 1 ? 0 : pageNo;
+    i = (pageSize * pageNo) + 1;
 }
 
 <!DOCTYPE html>
@@ -43,23 +55,33 @@
     </br>
     <table>
         <tr>
+            <th>SL</th>
             <th>Name</th>
             <th>FatherName</th>
             <th>DateOfBirth</th>
             <th>Gender</th>
             <th>District</th>
         </tr>
-        @foreach (var data in Model)
+        @foreach (var data in ViewBag.StudentList)
         {
             <tr>
+                <td>@i</td>
                 <td>@data.Name</td>
                 <td>@data.FatherName</td>
-                <td>@data.DateOfBirth</td>
+                <td>@data.DateOfBirthString</td>
                 <td>@data.Gender</td>
                 <td>@data.District</td>
             </tr>
+            i++;
         }
     </table>
+    </br>
+    @if (pager != null)
+    {
+        <tr>
+            <partial name="_Pager" model="@pager" />
+        </tr>
+    }
 </body>
 </html>
 
