@@ -10,6 +10,7 @@ namespace CrudOperation.Configuration.Scope
         {
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
         }
     }
 }

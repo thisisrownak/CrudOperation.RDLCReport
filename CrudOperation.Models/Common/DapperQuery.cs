@@ -10,5 +10,6 @@ namespace CrudOperation.Models.Common
     {
         public const string GetStudentList = "SELECT Name, FatherName, FORMAT (DateOfBirth, 'MMM dd-yyyy') DateOfBirthString, Gender, District FROM StudentInfo\r\n";
         public const string GetProductList = "SELECT Product, Quantity, Rate, Amount FROM ProductInfo";
+        public const string GetCompanyList = "SELECT CompanyName, Address, Country FROM CompanyName";
     }
 }
