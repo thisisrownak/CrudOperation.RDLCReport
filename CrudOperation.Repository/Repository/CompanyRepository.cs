@@ -23,7 +23,6 @@ namespace CrudOperation.Repository.Repository
         {
             List<CompanyListViewModel> companyList = [];
             CommonResponseModel<CompanyListViewModel> commonResponseModel = new();
-
             try
             {
                 using (var connection = new OleDbConnection(_connectionString))
@@ -41,7 +40,6 @@ namespace CrudOperation.Repository.Repository
                         companyList = [];
                     }
                 }
-
                 commonResponseModel.Success = true;
                 commonResponseModel.Resources = companyList;
             }
@@ -50,7 +48,6 @@ namespace CrudOperation.Repository.Repository
                 commonResponseModel.Success = false;
                 commonResponseModel.Message = ex.Message;
             }
-
             return commonResponseModel;
         }
     }
