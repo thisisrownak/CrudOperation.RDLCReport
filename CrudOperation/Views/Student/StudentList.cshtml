@@ -12,8 +12,11 @@
         pageNo = pager.CurrentPage;
     }
     int pageSize = ViewBag.ddlPageSize;
-    pageNo = pageNo == 1 ? 0 : pageNo;
-    i = (pageSize * pageNo) + 1;
+    int zeroBasedPageNo = pageNo - 1;
+    if (zeroBasedPageNo < 0) zeroBasedPageNo = 0;
+
+    i = (pageSize * zeroBasedPageNo) + 1;
+
 }
 
 <!DOCTYPE html>
